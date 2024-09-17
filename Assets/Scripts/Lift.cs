@@ -12,8 +12,8 @@ public class Lift : MonoBehaviour
     private Vector3 StartPosition;
     private Rigidbody2D RB;
     private bool IsMooving;
-    private bool PlayerStep;
-    private bool Up;
+    private bool PlayerStep; //Находится ли игрок на платформе
+    private bool Up; //Движется ли лифт вверх
 
     private void Start() 
     {

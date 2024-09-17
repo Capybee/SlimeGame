@@ -5,19 +5,19 @@ using UnityEngine;
 public class Missing : Entity
 {
     [SerializeField] private int Speed;
-    [SerializeField] private Vector3 RightPunchPoint;
-    [SerializeField] private Vector3 LeftPunchPoint;
-    [SerializeField] private Vector3 RightBorder;
-    [SerializeField] private Vector3 LeftBorder;
-    [SerializeField] private Vector3 BoxSize;
-    [SerializeField] private float StopDistacne;
-    [SerializeField] private float PunchRadius;
-    [SerializeField] private float PunchDistance;
+    [SerializeField] private Vector3 RightPunchPoint; //Локальная точка в пространстве, является центром окружности в которой проверяется попадание по противнику
+    [SerializeField] private Vector3 LeftPunchPoint; //Локальная точка в пространстве, является центром окружности в которой проверяется попадание по противнику
+    [SerializeField] private Vector3 RightBorder; //Граница области передвижения
+    [SerializeField] private Vector3 LeftBorder; //Граница области передвижения
+    [SerializeField] private Vector3 BoxSize; //Размер зоны обнаружения цели
+    [SerializeField] private float StopDistacne; //Дистанция до цели при достижении которой Потерявшийся останавливается
+    [SerializeField] private float PunchRadius; //Радиус в котором проверяется попадание по цели
+    [SerializeField] private float PunchDistance; //Дистанция с которой возможен удар
 
     private Rigidbody2D RB;
-    private bool IsRight = true;
+    private bool IsRight = true; //Движется ли объект вправо
     private GameObject Target;
-    private bool Punch = false;
+    private bool Punch = false; //Совершен ли удар, при значении true удар невозможен
     private int Timer;
     private const int TimerStartValue = 30;
 
@@ -50,7 +50,7 @@ public class Missing : Entity
         SearchTargets();
         if(Target != null)
         {
-            if(Vector3.Distance(transform.position, Target.gameObject.transform.position) < PunchDistance && Timer == TimerStartValue)
+            if(Vector3.Distance(transform.position, Target.gameObject.transform.position) < PunchDistance && Timer == TimerStartValue) //Если дистанция до цели меньше дистанции атаки, а также удар разрешен вызывает метод удара
             {
                 MelleAttack();
                 Punch = true;
@@ -97,6 +97,9 @@ public class Missing : Entity
         }
     }
 
+    /// <summary>
+    /// Ищет игрока в заданной области
+    /// </summary>
     protected override void SearchTargets()
     {
         var Colliders = Physics2D.OverlapBoxAll(transform.position, BoxSize, 2f);
@@ -112,6 +115,9 @@ public class Missing : Entity
         Target = null;
     }
 
+    /// <summary>
+    /// Заставляет двигаться за игроком
+    /// </summary>
     private void FollowPlayer()
     {
         if (Vector3.Distance(transform.position, Target.gameObject.transform.position) > StopDistacne)
@@ -131,10 +137,9 @@ public class Missing : Entity
     {
         if(IsRight)
         {
-            Debug.Log("Удар впараво");
-            Vector3 PunchMediantPoint = transform.TransformPoint(RightPunchPoint);
+            Vector3 PunchMediantPoint = transform.TransformPoint(RightPunchPoint); //Переводит локальные координаты в глобальные
 
-            var Colliders = Physics2D.OverlapCircleAll(PunchMediantPoint, PunchRadius);
+            var Colliders = Physics2D.OverlapCircleAll(PunchMediantPoint, PunchRadius); //Получает массив коллайдеров попавших в радиус атаки
 
             foreach (var collider in Colliders)
             {
@@ -147,10 +152,9 @@ public class Missing : Entity
         }
         else
         {
-            Debug.Log("Удар влево");
-            Vector3 PunchMediantPoint = transform.TransformPoint(LeftPunchPoint);
+            Vector3 PunchMediantPoint = transform.TransformPoint(LeftPunchPoint); //Переводит локальные координаты в глобальные
 
-            var Colliders = Physics2D.OverlapCircleAll(PunchMediantPoint, PunchRadius);
+            var Colliders = Physics2D.OverlapCircleAll(PunchMediantPoint, PunchRadius); //Получает массив коллайдеров попавших в радиус атаки
 
             foreach (var collider in Colliders)
             {

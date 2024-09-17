@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Базовый класс для всех существ/сущностей в игре
 public class Entity : MonoBehaviour
 {
     [SerializeField] protected int HealthPoint;
@@ -27,6 +28,7 @@ public class Entity : MonoBehaviour
     protected virtual void SearchTargets() {}
 }
 
+//Перечисление всех типов существ/сущностей в игре
 public enum EntityTypes
 {
     Player = 0,

@@ -9,6 +9,13 @@ public class HomingMissile : MonoBehaviour
     private Vector3 _Target;
     private EntityTypes _EntityType;
 
+    /// <summary>
+    /// Запускает снаряд в указанную цель
+    /// </summary>
+    /// <param name="Damage">Урон снаряда</param>
+    /// <param name="Speed">Скорость снаряда</param>
+    /// <param name="Target">Цель</param>
+    /// <param name="EntityType">Тип сущности запустившей снаряд</param>
     public void Fire(int Damage, float Speed, Vector3 Target, EntityTypes EntityType)
     {
         _Speed = Speed;

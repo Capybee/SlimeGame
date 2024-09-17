@@ -8,19 +8,19 @@ using UnityEngine;
 public class Player : Entity
 {
     [SerializeField] private KeyCode AttackKey;
-    [SerializeField] private Vector3 RightFirePoint;
-    [SerializeField] private Vector3 LeftFirePoint;
-    [SerializeField] private  Vector3 UpFirePoint;
-    [SerializeField] private GameObject Missile;
-    [SerializeField] private GameObject HomingMissile;
+    [SerializeField] private Vector3 RightFirePoint; //Точка в локальной системе координат из которой вылетает снаряд
+    [SerializeField] private Vector3 LeftFirePoint; //Точка в локальной системе координат из которой вылетает снаряд
+    [SerializeField] private  Vector3 UpFirePoint; //Точка в локальной системе координат из которой вылетает снаряд
+    [SerializeField] private GameObject Missile; //Префаб снаряда
+    [SerializeField] private GameObject HomingMissile; //Префаб самонаводящегося снаряда
     [SerializeField] private UIControler UIControlerInstance;
     [SerializeField] private KeyCode SearchKey;
     [SerializeField] private KeyCode StopTargetSearchKey;
     [SerializeField] private KeyCode HommingFireKey;
-    [SerializeField] private Vector3 RightPunchMediantPoint;
-    [SerializeField] private Vector3 LeftPunchMediantPoint;
-    [SerializeField] private float PunchRadius;
-    [SerializeField] private GameObject VisualizationPunch; 
+    [SerializeField] private Vector3 RightPunchMediantPoint; //Локальная точка в пространстве, является центром окружности в которой проверяется попадание по противнику
+    [SerializeField] private Vector3 LeftPunchMediantPoint; //Локальная точка в пространстве, является центром окружности в которой проверяется попадание по противнику
+    [SerializeField] private float PunchRadius; //Радиус в котором проверяется попадание по цели
+    [SerializeField] private GameObject VisualizationPunch; //Префаб объекта для визуализации области удара
     [SerializeField] private KeyCode MeleeAttackKey;
 
     private bool IsRight;
@@ -96,15 +96,15 @@ public class Player : Entity
 
     protected override void Attack()
     {
-        GameObject MissileObject = Instantiate(Missile);
+        GameObject MissileObject = Instantiate(Missile); //Создание снаряда из префаба
         if(IsRight)
         {
-            MissileObject.transform.position = transform.TransformPoint(RightFirePoint);
-            MissileObject.GetComponent<Missile>().Fire(Damage, 0.3f, transform.position + new Vector3(15f, 0));
+            MissileObject.transform.position = transform.TransformPoint(RightFirePoint);  //Перевод локальных координат в глобальные
+            MissileObject.GetComponent<Missile>().Fire(Damage, 0.3f, transform.position + new Vector3(15f, 0)); 
         }
         else
         {
-            MissileObject.transform.position = transform.TransformPoint(LeftFirePoint);
+            MissileObject.transform.position = transform.TransformPoint(LeftFirePoint); //Перевод локальных координат в глобальные
             MissileObject.GetComponent<Missile>().Fire(Damage, 0.3f, transform.position + new Vector3(-15f, 0));
         }
         
@@ -132,8 +132,8 @@ public class Player : Entity
 
     protected override void AttackOnFlyingTargets()
     {
-        GameObject HomingMissileObject = Instantiate(HomingMissile);
-        HomingMissileObject.transform.position = transform.TransformPoint(UpFirePoint);
+        GameObject HomingMissileObject = Instantiate(HomingMissile); //Создание снаряда из префаба
+        HomingMissileObject.transform.position = transform.TransformPoint(UpFirePoint); //Перевод локальных координат в глобальные
         HomingMissileObject.GetComponent<HomingMissile>().Fire(Damage, 0.2f, Target.transform.position, EntityTypes.Player);
     }
 
@@ -141,18 +141,18 @@ public class Player : Entity
     {
         if(IsRight)
         {
-            Vector3 PunchMediantPoint = transform.TransformPoint(RightPunchMediantPoint);
+            Vector3 PunchMediantPoint = transform.TransformPoint(RightPunchMediantPoint); //Перевод локальных координат в глобальные
 
-            var Colliders = Physics2D.OverlapCircleAll(PunchMediantPoint, PunchRadius);
+            var Colliders = Physics2D.OverlapCircleAll(PunchMediantPoint, PunchRadius); //Получение коллайдеров папавших в радиус атаки
 
-            GameObject PunchRadiusInstance = Instantiate(VisualizationPunch);
+            GameObject PunchRadiusInstance = Instantiate(VisualizationPunch); //Создание объекта для визуализации
             PunchRadiusInstance.transform.position = transform.TransformPoint(RightPunchMediantPoint);
 
             foreach(var ObjectCollider in Colliders)
             {
-                if(ObjectCollider.gameObject.tag == "Enemy" || ObjectCollider.gameObject.tag == "FlyingEnemy")
+                if(ObjectCollider.gameObject.tag == "Enemy" || ObjectCollider.gameObject.tag == "FlyingEnemy") //Если объект имеет тег Eneny или FlyingEnemy, он является противником и необходимо нанести урон
                 {
-                    Entity EntityInstance = ObjectCollider.gameObject.GetComponent<Entity>();
+                    Entity EntityInstance = ObjectCollider.gameObject.GetComponent<Entity>(); //Получение экземпляра класса Entity с целью получения информации о типе сущности
 
                     switch(EntityInstance.GetEntityType())
                     {
@@ -182,18 +182,18 @@ public class Player : Entity
         }
         else
         {
-            Vector3 PunchMediantPoint = transform.TransformPoint(LeftPunchMediantPoint);
+            Vector3 PunchMediantPoint = transform.TransformPoint(LeftPunchMediantPoint); //Перевод локальных координат в глобальные
 
-            var Colliders = Physics2D.OverlapCircleAll(PunchMediantPoint, PunchRadius);
+            var Colliders = Physics2D.OverlapCircleAll(PunchMediantPoint, PunchRadius); //Получение коллайдеров папавших в радиус атаки
 
-            GameObject PunchRadiusInstance = Instantiate(VisualizationPunch);
+            GameObject PunchRadiusInstance = Instantiate(VisualizationPunch); //Создание объекта для визуализации
             PunchRadiusInstance.transform.position = transform.TransformPoint(LeftPunchMediantPoint);
 
             foreach(var ObjectCollider in Colliders)
             {
-                if(ObjectCollider.gameObject.tag == "Enemy" || ObjectCollider.gameObject.tag == "FlyingEnemy")
+                if(ObjectCollider.gameObject.tag == "Enemy" || ObjectCollider.gameObject.tag == "FlyingEnemy") //Если объект имеет тег Eneny или FlyingEnemy, он является противником и необходимо нанести урон
                 {
-                    Entity EntityInstance = ObjectCollider.gameObject.GetComponent<Entity>();
+                    Entity EntityInstance = ObjectCollider.gameObject.GetComponent<Entity>(); //Получение экземпляра класса Entity с целью получения информации о типе сущности
 
                     switch(EntityInstance.GetEntityType())
                     {
@@ -223,12 +223,18 @@ public class Player : Entity
         }
     }
 
+    /// <summary>
+    /// Обнаруживает летающих противников в радиусе
+    /// </summary>
     protected override void SearchTargets()
     {
         var Colliders = Physics2D.OverlapCircleAll(transform.position, 100f).ToList();
         Targets = (from c in Colliders where c.gameObject.tag == "FlyingEnemy" select c).ToList();
     }
 
+    /// <summary>
+    /// Изменяет выбранную цель
+    /// </summary>
     private void SelectTarget()
     {
         Debug.Log($"Количество целей: {Targets.Count}\n TargetsCounter = {TargetsCounter}");

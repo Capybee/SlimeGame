@@ -8,6 +8,12 @@ public class Missile : MonoBehaviour
     private int _Damage;
     private Vector3 _Target;
 
+    /// <summary>
+    /// Запускает снаряд в цель которой является абстрактная точка перед сущностью
+    /// </summary>
+    /// <param name="Damage">Урон снаряда</param>
+    /// <param name="Speed">Скорость снаряда</param>
+    /// <param name="Target">Точка перед сущностью</param>
     public void Fire(int Damage, float Speed, Vector3 Target)
     {
         _Speed = Speed;
