@@ -134,7 +134,7 @@ public class Player : Entity
     {
         GameObject HomingMissileObject = Instantiate(HomingMissile); //Создание снаряда из префаба
         HomingMissileObject.transform.position = transform.TransformPoint(UpFirePoint); //Перевод локальных координат в глобальные
-        HomingMissileObject.GetComponent<HomingMissile>().Fire(Damage, 0.2f, Target.transform.position, EntityTypes.Player);
+        HomingMissileObject.GetComponent<HomingMissile>().Fire(Damage, 0.2f, Target.gameObject, EntityTypes.Player);
     }
 
     protected override void MelleAttack()

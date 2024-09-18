@@ -6,8 +6,11 @@ public class HomingMissile : MonoBehaviour
 {
     private float _Speed;
     private int _Damage;
-    private Vector3 _Target;
+    private GameObject _Target;
     private EntityTypes _EntityType;
+    private bool IsFire = false; //Переменная указывающая на то, совершен ли выстрел
+    private int LifeTimer = 0;
+    private const int  LifeTimerValue = 60;
 
     /// <summary>
     /// Запускает снаряд в указанную цель
@@ -16,12 +19,14 @@ public class HomingMissile : MonoBehaviour
     /// <param name="Speed">Скорость снаряда</param>
     /// <param name="Target">Цель</param>
     /// <param name="EntityType">Тип сущности запустившей снаряд</param>
-    public void Fire(int Damage, float Speed, Vector3 Target, EntityTypes EntityType)
+    public void Fire(int Damage, float Speed, GameObject Target, EntityTypes EntityType)
     {
         _Speed = Speed;
         _Damage = Damage;
         _Target = Target;
         _EntityType = EntityType;
+        IsFire = true;
+        LifeTimer = LifeTimerValue;
     }
 
     public int GetDamage()
@@ -31,11 +36,16 @@ public class HomingMissile : MonoBehaviour
 
     private void FixedUpdate() 
     {
-        transform.position = Vector3.MoveTowards(transform.position, _Target, _Speed);
-
-        if (Vector3.Distance(transform.position, _Target) < 0.1f)
+        if(IsFire)
         {
-            Destroy(gameObject, 0.2f);
+            transform.position = Vector3.MoveTowards(transform.position, _Target.transform.position, _Speed);
+
+            if (Vector3.Distance(transform.position, _Target.transform.position) < 0.1f)
+            {
+                Destroy(gameObject, 0.2f);
+            }
+
+            LifeCheck();
         }
     }
 
@@ -51,18 +61,26 @@ public class HomingMissile : MonoBehaviour
                     case EntityTypes.FlyingTarget:
                         FlyingTarget FlyingTargetInstance = other.gameObject.GetComponent<FlyingTarget>();
                         FlyingTargetInstance.TakingDamage(_Damage);
+                        IsFire = false;
+                        Destroy(gameObject);
                         break;
                     case EntityTypes.RangeMissing:
                         RangeMissing RangeMissingInstacne = other.gameObject.GetComponent<RangeMissing>();
                         RangeMissingInstacne.TakingDamage(_Damage);
+                        IsFire = false;
+                        Destroy(gameObject);
                         break;
                     case EntityTypes.TrainingTarget:
                         TrainingTarget TrainingTargetInstance = other.gameObject.GetComponent<TrainingTarget>();
                         TrainingTargetInstance.TakingDamage(_Damage);
+                        IsFire = false;
+                        Destroy(gameObject);
                         break;
                     case EntityTypes.Missing:
                         Missing MissingInstance = other.gameObject.GetComponent<Missing>();
                         MissingInstance.TakingDamage(_Damage);
+                        IsFire = false;
+                        Destroy(gameObject);
                     break;
                 }
             break;
@@ -72,8 +90,22 @@ public class HomingMissile : MonoBehaviour
                 {
                     Player PlayerInstance = other.gameObject.GetComponent<Player>();
                     PlayerInstance.TakingDamage(_Damage);
+                    IsFire = false;
+                    Destroy(gameObject);
                 }
             break;
+        }
+    }
+    
+    private void LifeCheck()
+    {
+        if(LifeTimer == 0)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            LifeTimer -= 1;
         }
     }
 }

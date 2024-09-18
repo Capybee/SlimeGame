@@ -29,9 +29,9 @@ public class RangeMissing : Entity
     {
         RB = gameObject.GetComponent<Rigidbody2D>();
         //Сохранение начальных позиций снарядов
-        LeftHomingMissilePosition = LeftHomingMissile.transform.position;    
-        RightHomingMissilePosition = RightHomingMissile.transform.position;    
-        MidHomingMissilePosition = MidHomingMissile.transform.position;    
+        LeftHomingMissilePosition = transform.InverseTransformPoint(LeftHomingMissile.transform.position);    
+        RightHomingMissilePosition = transform.InverseTransformPoint(RightHomingMissile.transform.position);    
+        MidHomingMissilePosition = transform.InverseTransformPoint(MidHomingMissile.transform.position);    
     }
 
     private void FixedUpdate() 
@@ -139,7 +139,7 @@ public class RangeMissing : Entity
             if(LeftMissileTimer == 0)
             {
                 LeftHomingMissile = Instantiate(MissilePrefab);
-                LeftHomingMissile.transform.position = LeftHomingMissilePosition;
+                LeftHomingMissile.transform.localPosition = transform.InverseTransformPoint(LeftHomingMissilePosition);
             }
             else
             {
@@ -151,7 +151,7 @@ public class RangeMissing : Entity
             if(RightMissileTimer == 0)
             {
                 RightHomingMissile = Instantiate(MissilePrefab);
-                RightHomingMissile.transform.position = RightHomingMissilePosition;
+                RightHomingMissile.transform.localPosition = transform.InverseTransformPoint(RightHomingMissilePosition);
             }
             else
             {
@@ -163,7 +163,7 @@ public class RangeMissing : Entity
             if(MidMissileTimer == 0)
             {
                 MidHomingMissile = Instantiate(MissilePrefab);
-                MidHomingMissile.transform.position = MidHomingMissilePosition;
+                MidHomingMissile.transform.localPosition = transform.InverseTransformPoint(MidHomingMissilePosition);
             }
             else
             {
@@ -178,19 +178,19 @@ public class RangeMissing : Entity
         if(LeftHomingMissile != null)
         {
             HomingMissile HomingMissileInstance = LeftHomingMissile.gameObject.GetComponent<HomingMissile>();
-            HomingMissileInstance.Fire(Damage, 0.1f, Target.transform.position, EntityType);
+            HomingMissileInstance.Fire(Damage, 0.1f, Target.gameObject, EntityType);
             LeftMissileTimer = TimerStartValue;
         }
         else if(RightHomingMissile != null)
         {
             HomingMissile HomingMissileInstance = RightHomingMissile.gameObject.GetComponent<HomingMissile>();
-            HomingMissileInstance.Fire(Damage, 0.1f, Target.transform.position, EntityType);
+            HomingMissileInstance.Fire(Damage, 0.1f, Target.gameObject, EntityType);
             RightMissileTimer = TimerStartValue;
         }
         else if (MidHomingMissile != null)
         {
             HomingMissile HomingMissileInstance = MidHomingMissile.gameObject.GetComponent<HomingMissile>();
-            HomingMissileInstance.Fire(Damage, 0.1f, Target.transform.position, EntityType);
+            HomingMissileInstance.Fire(Damage, 0.1f, Target.gameObject, EntityType);
             MidMissileTimer = TimerStartValue;
         }
     }
