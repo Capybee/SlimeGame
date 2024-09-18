@@ -102,7 +102,7 @@ public class Missing : Entity
     /// </summary>
     protected override void SearchTargets()
     {
-        var Colliders = Physics2D.OverlapBoxAll(transform.position, BoxSize, 2f);
+        var Colliders = Physics2D.OverlapBoxAll(transform.position, BoxSize, 2f); //Получение массива коллайдеров находящихся в указанной области
 
         foreach (var collider in Colliders)
         {

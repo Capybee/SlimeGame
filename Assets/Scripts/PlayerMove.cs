@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    private Animator Anim;
     private Rigidbody2D RB;
     private SpriteRenderer SR;
     private bool OnGround = false;
@@ -66,7 +65,7 @@ public class PlayerMove : MonoBehaviour
             IsDash = false;
         }
 
-        float Horizontal = 0;
+        float Horizontal = 0; //Значение скорости по горизонтали
 
         if(Input.GetKey(LeftKey))
         {
@@ -82,7 +81,7 @@ public class PlayerMove : MonoBehaviour
             IsRight = true;
         }
 
-        RB.velocity = new Vector2(Horizontal, RB.velocity.y);
+        RB.velocity = new Vector2(Horizontal, RB.velocity.y); 
     }
 
     private void Jump()
@@ -95,7 +94,7 @@ public class PlayerMove : MonoBehaviour
         if(IsRight)
         {
             Vector2 NewPosition = new Vector2(transform.position.x + 10f, transform.position.y);
-            if(!Physics2D.OverlapPoint(NewPosition))
+            if(!Physics2D.OverlapPoint(NewPosition)) //Проверка на наличие припятствий в финальной точке рывка
             {
                 transform.position = NewPosition;
             }
@@ -108,7 +107,7 @@ public class PlayerMove : MonoBehaviour
         else
         {
             Vector2 NewPosition = new Vector2(transform.position.x - 10f, transform.position.y);
-            if(!Physics2D.OverlapPoint(NewPosition))
+            if(!Physics2D.OverlapPoint(NewPosition)) //Проверка на наличие припятствий в финальной точке рывка
             {
                 transform.position = NewPosition;
             }

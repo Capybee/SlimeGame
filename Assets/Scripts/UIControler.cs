@@ -31,6 +31,10 @@ public class UIControler : MonoBehaviour
         DeathNotification.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Отрисовывает прицел на цели
+    /// </summary>
+    /// <param name="Target"></param>
     public void DrawSight(Collider2D Target)
     {
         if(Target != null)Debug.Log("_Target != Null");

@@ -5,29 +5,30 @@ using UnityEngine;
 public class RangeMissing : Entity
 {
     [SerializeField] private float Speed;
-    [SerializeField] private Vector3 RightBorder;
-    [SerializeField] private Vector3 LeftBorder;
-    [SerializeField] private Vector3 BoxSize;
-    [SerializeField] private GameObject LeftHomingMissile;
-    [SerializeField] private GameObject RightHomingMissile;
-    [SerializeField] private GameObject MidHomingMissile;
-    [SerializeField] private GameObject MissilePrefab;
+    [SerializeField] private Vector3 RightBorder; //Граница области передвижения
+    [SerializeField] private Vector3 LeftBorder; //Граница области передвижения
+    [SerializeField] private Vector3 BoxSize; //Размер области поиска цели
+    [SerializeField] private GameObject LeftHomingMissile; //Объект снаряда
+    [SerializeField] private GameObject RightHomingMissile; //Объект снаряда
+    [SerializeField] private GameObject MidHomingMissile; //Объект снаряда
+    [SerializeField] private GameObject MissilePrefab; //Префаб снаряда
 
     private Rigidbody2D RB;
     private bool IsRight = true;
     private GameObject Target;
-    private Vector3 LeftHomingMissilePosition;
-    private Vector3 RightHomingMissilePosition;
-    private Vector3 MidHomingMissilePosition;
-    private int LeftMissileTimer;
-    private int RightMissileTimer;
-    private int MidMissileTimer;
+    private Vector3 LeftHomingMissilePosition; //Стартовая позиция левого снаряда
+    private Vector3 RightHomingMissilePosition; //Стартовая позиция правого снаряда
+    private Vector3 MidHomingMissilePosition; //Стартовая позиция центрального снаряда
+    private int LeftMissileTimer; //Таймер "перезарядки" левого снаряда
+    private int RightMissileTimer; //Таймер "перезарядки" правого снаряда
+    private int MidMissileTimer; //Таймер "перезарядки" центрального снаряда
 
     private const int TimerStartValue = 30;
 
     private void Start() 
     {
         RB = gameObject.GetComponent<Rigidbody2D>();
+        //Сохранение начальных позиций снарядов
         LeftHomingMissilePosition = LeftHomingMissile.transform.position;    
         RightHomingMissilePosition = RightHomingMissile.transform.position;    
         MidHomingMissilePosition = MidHomingMissile.transform.position;    
@@ -62,6 +63,9 @@ public class RangeMissing : Entity
         }
     }
 
+    /// <summary>
+    /// Движение сущности по горизонтали
+    /// </summary>
     private void Move()
     {
         if(IsRight)
@@ -90,9 +94,12 @@ public class RangeMissing : Entity
         }
     }
 
+    /// <summary>
+    /// Ищет игрока в заданной области
+    /// </summary>
     protected override void SearchTargets()
     {
-        var Colliders = Physics2D.OverlapBoxAll(transform.position, BoxSize, 2f);
+        var Colliders = Physics2D.OverlapBoxAll(transform.position, BoxSize, 2f); //Получение массива коллайдеров находящихся в указанной области
 
         foreach (var collider in Colliders)
         {
@@ -105,6 +112,9 @@ public class RangeMissing : Entity
         Target = null;
     }
 
+    /// <summary>
+    /// Заставляет сущность двигаться в противоположном от игрока направлении
+    /// </summary>
     public void MoveOut()
     {
         Player PlayerInstance = Target.gameObject.GetComponent<Player>();
@@ -119,6 +129,9 @@ public class RangeMissing : Entity
 
     }
 
+    /// <summary>
+    /// Проверяет значение таймера. Если отсчет завершился создаёт новй снаряд. В противном случае уменьшает значение таймера на 1
+    /// </summary>
     private void Reload()
     {
         if(LeftHomingMissile == null)
