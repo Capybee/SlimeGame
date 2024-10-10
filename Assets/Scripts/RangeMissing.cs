@@ -12,6 +12,7 @@ public class RangeMissing : Entity
     [SerializeField] private GameObject RightHomingMissile; //Объект снаряда
     [SerializeField] private GameObject MidHomingMissile; //Объект снаряда
     [SerializeField] private GameObject MissilePrefab; //Префаб снаряда
+    [SerializeField] private UIControler UIControlerInstance;
 
     private Rigidbody2D RB;
     private bool IsRight = true;
@@ -22,8 +23,15 @@ public class RangeMissing : Entity
     private int LeftMissileTimer; //Таймер "перезарядки" левого снаряда
     private int RightMissileTimer; //Таймер "перезарядки" правого снаряда
     private int MidMissileTimer; //Таймер "перезарядки" центрального снаряда
+    private bool IsLeftFired = false;
+    private bool IsRightFired = false;
+    private bool IsCentrFired = false;
+    private bool IsReload = false;
+    private bool IsWait = false;
+    private int WaitTimer;
 
-    private const int TimerStartValue = 30;
+    private const int TIMERSTARTVALUE = 370;
+    private const int WAITSTARTVALUE = 120;
 
     private void Start() 
     {
@@ -31,7 +39,10 @@ public class RangeMissing : Entity
         //Сохранение начальных позиций снарядов
         LeftHomingMissilePosition = transform.InverseTransformPoint(LeftHomingMissile.transform.position);    
         RightHomingMissilePosition = transform.InverseTransformPoint(RightHomingMissile.transform.position);    
-        MidHomingMissilePosition = transform.InverseTransformPoint(MidHomingMissile.transform.position);    
+        MidHomingMissilePosition = transform.InverseTransformPoint(MidHomingMissile.transform.position);   
+        UIControlerInstance.SetLeftMissileStatusContent("Готов"); 
+        UIControlerInstance.SetRightMissileStatusContent("Готов");
+        UIControlerInstance.SetMidMissileStatusContent("Готов");
     }
 
     private void FixedUpdate() 
@@ -40,7 +51,15 @@ public class RangeMissing : Entity
         {
             MoveOut();
         }
-        Move();    
+        Move(); 
+        if(IsReload)
+        {
+            Reload();
+        }   
+        if(IsWait)
+        {
+            Wait();
+        }
     }
 
     private void Update() 
@@ -50,7 +69,6 @@ public class RangeMissing : Entity
         {
             Attack();
         }
-        Reload();
     }
 
     private void OnTriggerEnter2D(Collider2D other) 
@@ -134,64 +152,99 @@ public class RangeMissing : Entity
     /// </summary>
     private void Reload()
     {
-        if(LeftHomingMissile == null)
+        if(IsLeftFired)
         {
+            UIControlerInstance.SetLeftMissileStatusContent($"Таймер левого снаряда: {LeftMissileTimer}");
             if(LeftMissileTimer == 0)
             {
-                LeftHomingMissile = Instantiate(MissilePrefab);
-                LeftHomingMissile.transform.localPosition = transform.InverseTransformPoint(LeftHomingMissilePosition);
+                IsLeftFired = false;
+                LeftHomingMissile.SetActive(true);
+                UIControlerInstance.SetLeftMissileStatusContent("Готов");
             }
             else
             {
-                LeftMissileTimer -= 1;
+                LeftMissileTimer--;
             }
         }
-        else if(RightHomingMissile == null)
+        if(IsRightFired)
         {
+            UIControlerInstance.SetRightMissileStatusContent($"Таймер правого снаряда: {RightMissileTimer}");
             if(RightMissileTimer == 0)
             {
-                RightHomingMissile = Instantiate(MissilePrefab);
-                RightHomingMissile.transform.localPosition = transform.InverseTransformPoint(RightHomingMissilePosition);
+                IsRightFired = false;
+                RightHomingMissile.SetActive(true);
+                UIControlerInstance.SetRightMissileStatusContent("Готов");
             }
             else
             {
-                RightMissileTimer -= 1;
+                RightMissileTimer--;
             }
         }
-        else if(MidHomingMissile == null)
+        if(IsCentrFired)
         {
+            UIControlerInstance.SetMidMissileStatusContent($"Таймер центрального снаряда: {MidMissileTimer}");
             if(MidMissileTimer == 0)
             {
-                MidHomingMissile = Instantiate(MissilePrefab);
-                MidHomingMissile.transform.localPosition = transform.InverseTransformPoint(MidHomingMissilePosition);
+                IsCentrFired = false;
+                MidHomingMissile.SetActive(true);
+                UIControlerInstance.SetMidMissileStatusContent("Готов");
             }
             else
             {
-                MidMissileTimer -= 1;
+                MidMissileTimer--;
             }
         }
+    }
 
+    private void Wait()
+    {
+        if(WaitTimer == 0)
+        {
+            IsWait = false;
+        }
+        else
+        {
+            WaitTimer--;
+        }
     }
 
     protected override void Attack()
     {
-        if(LeftHomingMissile != null)
+        if(!IsLeftFired && !IsWait)
         {
-            HomingMissile HomingMissileInstance = LeftHomingMissile.gameObject.GetComponent<HomingMissile>();
-            HomingMissileInstance.Fire(Damage, 0.1f, Target.gameObject, EntityType);
-            LeftMissileTimer = TimerStartValue;
+            GameObject HomingMissileObject = Instantiate(MissilePrefab);
+            HomingMissileObject.transform.position = transform.TransformPoint(LeftHomingMissilePosition);
+            HomingMissileObject.GetComponent<HomingMissile>().Fire(Damage, 0.1f, Target.gameObject, EntityType);
+            LeftHomingMissile.SetActive(false);
+            IsLeftFired = true;
+            LeftMissileTimer = TIMERSTARTVALUE;
+            IsReload = true;
+            IsWait = true;
+            WaitTimer = WAITSTARTVALUE;
         }
-        else if(RightHomingMissile != null)
+        else if(!IsCentrFired && !IsWait)
         {
-            HomingMissile HomingMissileInstance = RightHomingMissile.gameObject.GetComponent<HomingMissile>();
-            HomingMissileInstance.Fire(Damage, 0.1f, Target.gameObject, EntityType);
-            RightMissileTimer = TimerStartValue;
+            GameObject HomingMissileObject = Instantiate(MissilePrefab);
+            HomingMissileObject.transform.position = transform.TransformPoint(MidHomingMissilePosition);
+            HomingMissileObject.GetComponent<HomingMissile>().Fire(Damage, 0.1f, Target.gameObject, EntityType);
+            MidHomingMissile.SetActive(false);
+            IsCentrFired = true;
+            MidMissileTimer = TIMERSTARTVALUE;
+            IsReload = true;
+            IsWait = true;
+            WaitTimer = WAITSTARTVALUE;
         }
-        else if (MidHomingMissile != null)
+        else if (!IsRightFired && !IsWait)  
         {
-            HomingMissile HomingMissileInstance = MidHomingMissile.gameObject.GetComponent<HomingMissile>();
-            HomingMissileInstance.Fire(Damage, 0.1f, Target.gameObject, EntityType);
-            MidMissileTimer = TimerStartValue;
+            GameObject HomingMissileObject = Instantiate(MissilePrefab);
+            HomingMissileObject.transform.position = transform.TransformPoint(RightHomingMissilePosition);
+            HomingMissileObject.GetComponent<HomingMissile>().Fire(Damage, 0.1f, Target.gameObject, EntityType);
+            RightHomingMissile.SetActive(false);
+            IsRightFired = true;
+            RightMissileTimer = TIMERSTARTVALUE;
+            IsReload = true;
+            IsWait = true;
+            WaitTimer = WAITSTARTVALUE;
         }
     }
 
