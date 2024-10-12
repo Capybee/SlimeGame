@@ -35,5 +35,6 @@ public enum EntityTypes
     TrainingTarget = 1,
     FlyingTarget = 2,
     Missing = 3,
-    RangeMissing = 4
+    RangeMissing = 4,
+    Stalactitl = 5
 }

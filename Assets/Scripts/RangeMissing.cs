@@ -81,6 +81,12 @@ public class RangeMissing : Entity
         }
     }
 
+    private void OnDrawGizmos() 
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position, BoxSize);    
+    }
+
     /// <summary>
     /// Движение сущности по горизонтали
     /// </summary>
