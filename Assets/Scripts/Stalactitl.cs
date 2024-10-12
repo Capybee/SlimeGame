@@ -84,6 +84,11 @@ public class Stalactitl : Entity
 
     private void SearchTarget()
     {
+        if(Target != null)
+        {
+            BoxSize += new Vector3(10,10);
+        }
+        
         var Colliders = Physics2D.OverlapBoxAll(transform.position, BoxSize, 2f);
 
         foreach (var c in Colliders)
@@ -113,7 +118,7 @@ public class Stalactitl : Entity
         float Angle = Mathf.Atan2(Direction.y,Direction.x) * Mathf.Rad2Deg - 90f;
         Quaternion CurrentRotation = transform.rotation;
         Quaternion TargetRotation = Quaternion.Euler(0,0,Angle); 
-        transform.rotation = Quaternion.Lerp(CurrentRotation, TargetRotation, 1f);
+        transform.rotation = Quaternion.Lerp(CurrentRotation, TargetRotation, 5f);
     }
 
     protected override void Death()

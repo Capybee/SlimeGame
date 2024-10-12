@@ -69,6 +69,12 @@ public class Missing : Entity
         }
     }
 
+    private void OnDrawGizmos() 
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position, BoxSize);    
+    }
+
     private void Move()
     {
         if(IsRight)

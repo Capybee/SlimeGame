@@ -3154,6 +3154,10 @@ PrefabInstance:
       value: Missing
       objectReference: {fileID: 0}
     - target: {fileID: 4067138143083558415, guid: 6007237b6181e2948ad37c5772f8dd09, type: 3}
+      propertyPath: BoxSize.x
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067138143083558415, guid: 6007237b6181e2948ad37c5772f8dd09, type: 3}
       propertyPath: RightPunchPoint.x
       value: 1.02
       objectReference: {fileID: 0}
