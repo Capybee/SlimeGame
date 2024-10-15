@@ -12,6 +12,9 @@ public class PlayerMove : MonoBehaviour
     private bool IsRight = true;
     private Player PlayerInstance;
     private bool IsDash = false;
+    private int DashTimer = 0;
+
+    private const int DASHTIMERSTARTVALUE = 150;
 
     [SerializeField] private KeyCode LeftKey;
     [SerializeField] private KeyCode RightKey;
@@ -59,10 +62,16 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate() 
     {
+        
         if(IsDash)
         {
             Dash();
             IsDash = false;
+        }
+        
+        if(DashTimer != 0)
+        {
+            DashTimer--;
         }
 
         float Horizontal = 0; //Значение скорости по горизонтали
@@ -91,30 +100,35 @@ public class PlayerMove : MonoBehaviour
 
     private void Dash()
     {
-        if(IsRight)
+        if(DashTimer == 0)
         {
-            Vector2 NewPosition = new Vector2(transform.position.x + 10f, transform.position.y);
-            if(!Physics2D.OverlapPoint(NewPosition)) //Проверка на наличие припятствий в финальной точке рывка
+            if(IsRight)
             {
-                transform.position = NewPosition;
+                Vector2 NewPosition = new Vector2(transform.position.x + 10f, transform.position.y);
+                if(!Physics2D.OverlapPoint(NewPosition)) //Проверка на наличие припятствий в финальной точке рывка
+                {
+                    transform.position = NewPosition;
+                    DashTimer = DASHTIMERSTARTVALUE;
+                }
+                else
+                {
+                    Debug.Log("Попадается припятствие");
+                    PlayerInstance.TakingDamage(10);
+                }
             }
             else
             {
-                Debug.Log("Попадается припятствие");
-                PlayerInstance.TakingDamage(10);
-            }
-        }
-        else
-        {
-            Vector2 NewPosition = new Vector2(transform.position.x - 10f, transform.position.y);
-            if(!Physics2D.OverlapPoint(NewPosition)) //Проверка на наличие припятствий в финальной точке рывка
-            {
-                transform.position = NewPosition;
-            }
-            else
-            {
-                Debug.Log("Попадается припятствие");
-                PlayerInstance.TakingDamage(10);
+                Vector2 NewPosition = new Vector2(transform.position.x - 10f, transform.position.y);
+                if(!Physics2D.OverlapPoint(NewPosition)) //Проверка на наличие припятствий в финальной точке рывка
+                {
+                    transform.position = NewPosition;
+                    DashTimer = DASHTIMERSTARTVALUE;
+                }
+                else
+                {
+                    Debug.Log("Попадается припятствие");
+                    PlayerInstance.TakingDamage(10);
+                }
             }
         }
     }

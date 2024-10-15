@@ -29,6 +29,9 @@ public class Player : Entity
     private Collider2D Target;
     private int TargetsCounter = 0;
     private bool TargetIsActive = false;
+    private int FireTimer = 0;
+
+    private const int FIRETIMERSTARTVALUE = 15;
 
     private void Start() 
     {
@@ -42,7 +45,7 @@ public class Player : Entity
 
     private void Update() 
     {
-        if(Input.GetKeyDown(AttackKey))
+        if(Input.GetKeyDown(AttackKey) || Input.GetKey(AttackKey))
         {
             Attack();
         }
@@ -94,18 +97,32 @@ public class Player : Entity
         }
     }
 
+    private void FixedUpdate() 
+    {
+        if(FireTimer != 0)
+        {
+            FireTimer--;
+        }    
+    }
+
     protected override void Attack()
     {
-        GameObject MissileObject = Instantiate(Missile); //Создание снаряда из префаба
-        if(IsRight)
+        if(FireTimer == 0)
         {
-            MissileObject.transform.position = transform.TransformPoint(RightFirePoint);  //Перевод локальных координат в глобальные
-            MissileObject.GetComponent<Missile>().Fire(Damage, 0.3f, transform.position + new Vector3(15f, 0)); 
-        }
-        else
-        {
-            MissileObject.transform.position = transform.TransformPoint(LeftFirePoint); //Перевод локальных координат в глобальные
-            MissileObject.GetComponent<Missile>().Fire(Damage, 0.3f, transform.position + new Vector3(-15f, 0));
+            GameObject MissileObject = Instantiate(Missile); //Создание снаряда из префаба
+
+            if(IsRight)
+            {
+                MissileObject.transform.position = transform.TransformPoint(RightFirePoint);  //Перевод локальных координат в глобальные
+                MissileObject.GetComponent<Missile>().Fire(Damage, 0.3f, transform.position + new Vector3(15f, 0));
+                FireTimer = FIRETIMERSTARTVALUE;
+            }
+            else
+            {
+                MissileObject.transform.position = transform.TransformPoint(LeftFirePoint); //Перевод локальных координат в глобальные
+                MissileObject.GetComponent<Missile>().Fire(Damage, 0.3f, transform.position + new Vector3(-15f, 0));
+                FireTimer = FIRETIMERSTARTVALUE;
+            }
         }
         
     }
