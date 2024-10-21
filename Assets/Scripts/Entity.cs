@@ -36,5 +36,6 @@ public enum EntityTypes
     FlyingTarget = 2,
     Missing = 3,
     RangeMissing = 4,
-    Stalactitl = 5
+    Stalactitl = 5,
+    Observer = 6
 }

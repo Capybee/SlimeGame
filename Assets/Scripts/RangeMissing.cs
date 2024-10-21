@@ -30,7 +30,7 @@ public class RangeMissing : Entity
     private bool IsWait = false;
     private int WaitTimer;
 
-    private const int TIMERSTARTVALUE = 370;
+    private const int TIMERSTARTVALUE = 250;
     private const int WAITSTARTVALUE = 120;
 
     private void Start() 

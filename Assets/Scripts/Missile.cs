@@ -46,6 +46,7 @@ public class Missile : MonoBehaviour
             case EntityTypes.FlyingTarget:
             case EntityTypes.Missing:
             case EntityTypes.RangeMissing:
+            case EntityTypes.Stalactitl:
                 Destroy(gameObject);
                 break;
         }

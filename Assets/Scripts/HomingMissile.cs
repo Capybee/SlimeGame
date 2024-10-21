@@ -81,7 +81,13 @@ public class HomingMissile : MonoBehaviour
                         MissingInstance.TakingDamage(_Damage);
                         IsFire = false;
                         Destroy(gameObject);
-                    break;
+                        break;
+                    case EntityTypes.Stalactitl:
+                        Stalactitl StalactitlInstance = other.gameObject.GetComponent<Stalactitl>();
+                        StalactitlInstance.TakingDamage(_Damage);
+                        IsFire = false;
+                        Destroy(gameObject);
+                        break;
                 }
             break;
             case EntityTypes.RangeMissing:

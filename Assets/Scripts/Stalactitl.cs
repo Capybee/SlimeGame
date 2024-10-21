@@ -126,4 +126,9 @@ public class Stalactitl : Entity
         Destroy(gameObject);
     }
 
+    public override void TakingDamage(int TakeDamage)
+    {
+        Death();
+    }
+
 }
