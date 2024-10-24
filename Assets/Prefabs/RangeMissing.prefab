@@ -179,9 +179,9 @@ MonoBehaviour:
   MeleeDamage: 0
   EntityType: 4
   Speed: 2.5
-  RightBorder: {x: 50.08, y: 11.36, z: 0}
-  LeftBorder: {x: 23.05, y: 11.36, z: 0}
-  BoxSize: {x: 15, y: 2, z: 0}
+  RightBorder: {x: 0, y: 0, z: 0}
+  LeftBorder: {x: 0, y: 0, z: 0}
+  BoxSize: {x: 0, y: 0, z: 0}
   LeftHomingMissile: {fileID: 4625106396987110683}
   RightHomingMissile: {fileID: 3760662328813163007}
   MidHomingMissile: {fileID: 2883143877003977796}

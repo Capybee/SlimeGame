@@ -88,6 +88,12 @@ public class HomingMissile : MonoBehaviour
                         IsFire = false;
                         Destroy(gameObject);
                         break;
+                    case EntityTypes.Observer:
+                        Observer ObserverInstance = other.gameObject.GetComponent<Observer>();
+                        ObserverInstance.TakingDamage(_Damage);
+                        IsFire = false;
+                        Destroy(gameObject);
+                        break;
                 }
             break;
             case EntityTypes.RangeMissing:

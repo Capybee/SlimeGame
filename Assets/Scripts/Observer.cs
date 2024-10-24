@@ -7,18 +7,22 @@ using Unity.VisualScripting;
 public class Observer : Entity
 {
     [SerializeField] private float Speed;
-    [SerializeField] private float SearchSphereRadius;
     [SerializeField] private GameObject MissilePref;
     [SerializeField] private Vector2 RightBounds;
     [SerializeField] private Vector2 LeftBounds;
     [SerializeField] private float SearchRadius;
     [SerializeField] private float SavedDistanceToPlayer;
+    [SerializeField] private DropControler DropControlerInstance;
 
     private Rigidbody2D RB;
     private GameObject Target;
     private Vector2 TargetPosition;
     private bool IsWaiting = false;
     private float WaitTime = 1.5f;
+    private bool IsFire;
+    private int FireTimer = 0;
+
+    private const int FIRETIMERSTARTVALUE = 75;
 
     private void Start() 
     {
@@ -28,7 +32,11 @@ public class Observer : Entity
 
     private void Update() 
     {
-        SearchPlayer();    
+        SearchPlayer();
+        if(Target != null && !IsFire)
+        {
+            Attack();
+        }    
     }
 
     private void FixedUpdate() 
@@ -36,6 +44,15 @@ public class Observer : Entity
         if(!IsWaiting)
         {
             Move();
+        }
+
+        if(FireTimer == 0)
+        {
+            IsFire = false;
+        }
+        else
+        {
+            FireTimer--;
         }
     }
 
@@ -56,6 +73,19 @@ public class Observer : Entity
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, SavedDistanceToPlayer);
+    }
+
+    protected override void Attack()
+    {
+        GameObject LaserBeamObject = Instantiate(MissilePref);
+
+        LaserBeamObject.transform.position = transform.position;
+
+        LaserBeam LaserBeamUInstance = LaserBeamObject.GetComponent<LaserBeam>();
+        LaserBeamUInstance.Fire(Damage, 0.4f, Target.transform.position);
+
+        IsFire = true;
+        FireTimer = FIRETIMERSTARTVALUE;
     }
 
     private void Move()
@@ -115,5 +145,24 @@ public class Observer : Entity
         {
             TargetPosition = new Vector2(RandomX, RandomY);
         }
+    }
+
+    public override void TakingDamage(int TakeDamage)
+    {
+        if(HealthPoint - TakeDamage > 0)
+        {
+            HealthPoint -= TakeDamage;
+        }
+        else
+        {
+            HealthPoint = 0;
+            Death();
+        }
+    }
+
+    protected override void Death()
+    {
+        DropControlerInstance.Drop(EntityType, transform.position);
+        Destroy(gameObject);
     }
 }

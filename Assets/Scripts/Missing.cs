@@ -13,6 +13,7 @@ public class Missing : Entity
     [SerializeField] private float StopDistacne; //Дистанция до цели при достижении которой Потерявшийся останавливается
     [SerializeField] private float PunchRadius; //Радиус в котором проверяется попадание по цели
     [SerializeField] private float PunchDistance; //Дистанция с которой возможен удар
+    [SerializeField] private DropControler DropControlerInstance;
 
     private Rigidbody2D RB;
     private bool IsRight = true; //Движется ли объект вправо
@@ -189,6 +190,7 @@ public class Missing : Entity
 
     protected override void Death()
     {
+        DropControlerInstance.Drop(EntityType, transform.position);
         Destroy(gameObject);
     }
 }

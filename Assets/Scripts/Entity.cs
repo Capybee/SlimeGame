@@ -26,6 +26,8 @@ public class Entity : MonoBehaviour
     }
 
     protected virtual void SearchTargets() {}
+
+    public virtual void Healing(int RecoverableHealth) {}
 }
 
 //Перечисление всех типов существ/сущностей в игре

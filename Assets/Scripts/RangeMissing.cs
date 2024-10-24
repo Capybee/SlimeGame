@@ -13,6 +13,7 @@ public class RangeMissing : Entity
     [SerializeField] private GameObject MidHomingMissile; //Объект снаряда
     [SerializeField] private GameObject MissilePrefab; //Префаб снаряда
     [SerializeField] private UIControler UIControlerInstance;
+    [SerializeField] private DropControler DropControlerInstance;
 
     private Rigidbody2D RB;
     private bool IsRight = true;
@@ -270,6 +271,7 @@ public class RangeMissing : Entity
 
     protected override void Death()
     {
+        DropControlerInstance.Drop(EntityType, transform.position);
         Destroy(gameObject);
     }
 }

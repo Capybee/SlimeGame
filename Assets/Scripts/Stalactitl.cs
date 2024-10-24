@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Stalactitl : Entity
 {
-    [SerializeField] float Speed;
-    [SerializeField] Vector3 BoxSize;
+    [SerializeField] private float Speed;
+    [SerializeField] private Vector3 BoxSize;
+    [SerializeField] private DropControler DropControlerInstance;
     
     private GameObject Target;
     private Rigidbody2D RB;
@@ -123,6 +124,7 @@ public class Stalactitl : Entity
 
     protected override void Death()
     {
+        DropControlerInstance.Drop(EntityType, transform.position);
         Destroy(gameObject);
     }
 

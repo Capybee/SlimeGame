@@ -276,6 +276,19 @@ public class Player : Entity
         }
     }
 
+    public override void Healing(int RecoverableHealth)
+    {
+        if(HealthPoint + RecoverableHealth > 10)
+        {
+            HealthPoint = 10;
+        }
+        else
+        {
+            HealthPoint += RecoverableHealth;
+        }
+        UIControlerInstance.SetHP(HealthPoint);
+    }
+
     /// <summary>
     /// Вызвращает информацию о направлении движения игрока
     /// </summary>
