@@ -10,7 +10,7 @@ public class HomingMissile : MonoBehaviour
     private EntityTypes _EntityType;
     private bool IsFire = false; //Переменная указывающая на то, совершен ли выстрел
     private int LifeTimer = 0;
-    private const int  LifeTimerValue = 60;
+    private const int  LifeTimerValue =120;
 
     /// <summary>
     /// Запускает снаряд в указанную цель

@@ -192,5 +192,6 @@ public class Missing : Entity
     {
         DropControlerInstance.Drop(EntityType, transform.position);
         Destroy(gameObject);
+        Destroy(HealthBarInstance);
     }
 }

@@ -131,6 +131,7 @@ public class Stalactitl : Entity
     public override void TakingDamage(int TakeDamage)
     {
         Death();
+        Destroy(HealthBarInstance);
     }
 
 }

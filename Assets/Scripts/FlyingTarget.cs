@@ -23,5 +23,6 @@ public class FlyingTarget : Entity
     public override void TakingDamage(int TakeDamage)
     {   
         Destroy(gameObject);
+        Destroy(HealthBarInstance);
     }
 }

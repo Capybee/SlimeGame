@@ -138,6 +138,7 @@ MonoBehaviour:
   Damage: 0
   MeleeDamage: 0
   EntityType: 2
+  HealthBarPrefab: {fileID: 6695409243820084837, guid: 7cbe10fe0d3fd4f4dae6df6331701dc4, type: 3}
 --- !u!50 &7081442060366427667
 Rigidbody2D:
   serializedVersion: 4

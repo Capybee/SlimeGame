@@ -41,9 +41,6 @@ public class RangeMissing : Entity
         LeftHomingMissilePosition = transform.InverseTransformPoint(LeftHomingMissile.transform.position);    
         RightHomingMissilePosition = transform.InverseTransformPoint(RightHomingMissile.transform.position);    
         MidHomingMissilePosition = transform.InverseTransformPoint(MidHomingMissile.transform.position);   
-        UIControlerInstance.SetLeftMissileStatusContent("Готов"); 
-        UIControlerInstance.SetRightMissileStatusContent("Готов");
-        UIControlerInstance.SetMidMissileStatusContent("Готов");
     }
 
     private void FixedUpdate() 
@@ -161,12 +158,10 @@ public class RangeMissing : Entity
     {
         if(IsLeftFired)
         {
-            UIControlerInstance.SetLeftMissileStatusContent($"Таймер левого снаряда: {LeftMissileTimer}");
             if(LeftMissileTimer == 0)
             {
                 IsLeftFired = false;
                 LeftHomingMissile.SetActive(true);
-                UIControlerInstance.SetLeftMissileStatusContent("Готов");
             }
             else
             {
@@ -175,12 +170,10 @@ public class RangeMissing : Entity
         }
         if(IsRightFired)
         {
-            UIControlerInstance.SetRightMissileStatusContent($"Таймер правого снаряда: {RightMissileTimer}");
             if(RightMissileTimer == 0)
             {
                 IsRightFired = false;
                 RightHomingMissile.SetActive(true);
-                UIControlerInstance.SetRightMissileStatusContent("Готов");
             }
             else
             {
@@ -189,12 +182,10 @@ public class RangeMissing : Entity
         }
         if(IsCentrFired)
         {
-            UIControlerInstance.SetMidMissileStatusContent($"Таймер центрального снаряда: {MidMissileTimer}");
             if(MidMissileTimer == 0)
             {
                 IsCentrFired = false;
                 MidHomingMissile.SetActive(true);
-                UIControlerInstance.SetMidMissileStatusContent("Готов");
             }
             else
             {
@@ -273,5 +264,6 @@ public class RangeMissing : Entity
     {
         DropControlerInstance.Drop(EntityType, transform.position);
         Destroy(gameObject);
+        Destroy(HealthBarInstance);
     }
 }

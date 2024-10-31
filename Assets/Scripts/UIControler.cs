@@ -9,9 +9,6 @@ public class UIControler : MonoBehaviour
     [SerializeField] private TMP_Text DeathNotification;
     [SerializeField] private TMP_Text Sight;
     [SerializeField] private TMP_Text ElevatorHint;
-    [SerializeField] private TMP_Text LeftMissileStatus;
-    [SerializeField] private TMP_Text RightMissileStatus;
-    [SerializeField] private TMP_Text MidMissileStatus;
 
     private bool TargetIsSelected = false;
     private Collider2D _Target;
@@ -70,19 +67,6 @@ public class UIControler : MonoBehaviour
     {
         Vector3 ScreenPosition = Camera.main.WorldToScreenPoint(_Target.transform.position);
         Sight.rectTransform.position = ScreenPosition;
-    }
-
-    public void SetLeftMissileStatusContent(string Content)
-    {
-        LeftMissileStatus.text = Content;
-    }
-    public void SetRightMissileStatusContent(string Content)
-    {
-        RightMissileStatus.text = Content;
-    }
-    public void SetMidMissileStatusContent(string Content)
-    {
-        MidMissileStatus.text = Content;
     }
 
 }
