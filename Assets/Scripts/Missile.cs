@@ -16,6 +16,7 @@ public class Missile : MonoBehaviour
     /// <param name="Target">Точка перед сущностью</param>
     public void Fire(int Damage, float Speed, Vector3 Target)
     {
+        Debug.Log($"Урон переданый в снаряд: {Damage}");
         _Speed = Speed;
         _Damage = Damage;
         _Target = Target;
@@ -43,10 +44,33 @@ public class Missile : MonoBehaviour
         switch(EntityInstance.GetEntityType())
         {
             case EntityTypes.TrainingTarget:
+                TrainingTarget TrainingTargetInstance = other.gameObject.GetComponent<TrainingTarget>();
+                TrainingTargetInstance.TakingDamage(_Damage);
+                Destroy(gameObject);
+                break;
             case EntityTypes.FlyingTarget:
+                FlyingTarget FlyingTargetInstance = other.gameObject.GetComponent<FlyingTarget>();
+                FlyingTargetInstance.TakingDamage(_Damage);
+                Destroy(gameObject);
+                break;
             case EntityTypes.Missing:
+                Missing MissingInstance = other.gameObject.GetComponent<Missing>();
+                MissingInstance.TakingDamage(_Damage);
+                Destroy(gameObject);
+                break;
             case EntityTypes.RangeMissing:
+                RangeMissing RangeMissingInstacne = other.gameObject.GetComponent<RangeMissing>();
+                RangeMissingInstacne.TakingDamage(_Damage);
+            Destroy(gameObject);
+                break;
             case EntityTypes.Stalactitl:
+                Stalactitl StalactitlInstance = other.gameObject.GetComponent<Stalactitl>();
+                StalactitlInstance.TakingDamage(_Damage);
+                Destroy(gameObject);
+                break;
+            case EntityTypes.Observer:
+                Observer ObserverInstance = other.gameObject.GetComponent<Observer>();
+                ObserverInstance.TakingDamage(_Damage);
                 Destroy(gameObject);
                 break;
         }

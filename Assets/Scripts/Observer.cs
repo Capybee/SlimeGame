@@ -152,6 +152,8 @@ public class Observer : Entity
         if(HealthPoint - TakeDamage > 0)
         {
             HealthPoint -= TakeDamage;
+            Debug.Log($"Получено урона: {TakeDamage} Здоровья осталось: {HealthPoint}");
+            base.TakingDamage(TakeDamage);
         }
         else
         {
@@ -162,7 +164,9 @@ public class Observer : Entity
 
     protected override void Death()
     {
+        base.Death();
         DropControlerInstance.Drop(EntityType, transform.position);
         Destroy(gameObject);
+        
     }
 }

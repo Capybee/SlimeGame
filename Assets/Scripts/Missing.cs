@@ -60,16 +60,6 @@ public class Missing : Entity
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) 
-    {
-        if (other.gameObject.tag == "Missile")
-        {
-            Missile MissileInstance = other.gameObject.GetComponent<Missile>();
-
-            TakingDamage(MissileInstance.GetDamage());
-        }
-    }
-
     private void OnDrawGizmos() 
     {
         Gizmos.color = Color.red;
@@ -179,8 +169,8 @@ public class Missing : Entity
         if((HealthPoint -= TakeDamage) > 0)
         {
             HealthPoint -= TakeDamage;
-            Debug.Log($"Получено урона: {TakeDamage}");
-            Debug.Log($"Здоровья осталось: {HealthPoint}");
+            Debug.Log($"Получено урона: {TakeDamage} Здоровья осталось: {HealthPoint}");
+            base.TakingDamage(TakeDamage);
         }
         else
         {
@@ -190,8 +180,8 @@ public class Missing : Entity
 
     protected override void Death()
     {
+        base.Death();
         DropControlerInstance.Drop(EntityType, transform.position);
         Destroy(gameObject);
-        Destroy(HealthBarInstance);
     }
 }

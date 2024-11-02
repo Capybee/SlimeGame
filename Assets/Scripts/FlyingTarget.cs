@@ -22,7 +22,13 @@ public class FlyingTarget : Entity
 
     public override void TakingDamage(int TakeDamage)
     {   
+        base.TakingDamage(TakeDamage);
+        Death();
+    }
+
+    protected override void Death()
+    {
+        base.Death();
         Destroy(gameObject);
-        Destroy(HealthBarInstance);
     }
 }

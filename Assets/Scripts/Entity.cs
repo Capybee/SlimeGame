@@ -13,16 +13,30 @@ public class Entity : MonoBehaviour
     [SerializeField] protected EntityTypes EntityType;
     [SerializeField] protected GameObject HealthBarPrefab;
 
-    protected GameObject HealthBarInstance;
-    protected TMP_Text EntityName;
-    protected Slider HealthBar;
-    private bool NotPlayer;
+    private HealthBarControler HealthBarControlerInstance;
 
-    public virtual void TakingDamage(int TakeDamage) {}
+    private void Awake() 
+    {
+        if(EntityType != EntityTypes.Stalactitl && EntityType != EntityTypes.Player)
+        {
+            HealthBarControlerInstance = GetComponent<HealthBarControler>();
+        }       
+    }
+
+    public virtual void TakingDamage(int TakeDamage)
+    {
+        if(HealthBarControlerInstance != null)
+        {
+            HealthBarControlerInstance.UpdateHealthBarValue(TakeDamage);
+        }
+    }
 
     protected virtual void Attack() {}
 
-    protected virtual void Death() {}
+    protected virtual void Death() 
+    {
+        HealthBarControlerInstance.Delete();
+    }
 
     protected virtual void AttackOnFlyingTargets() {}
     
@@ -33,83 +47,15 @@ public class Entity : MonoBehaviour
         return EntityType;
     }
 
+    public int GetHealthPoint()
+    {
+        return HealthPoint;
+    }
+
     protected virtual void SearchTargets() {}
 
     public virtual void Healing(int RecoverableHealth) {}
-
-    
-    private void Awake() 
-    {
-        if(EntityType != EntityTypes.Player)
-        {
-            Canvas CanvasInstance = FindAnyObjectByType<Canvas>();
-
-            HealthBarInstance = Instantiate(HealthBarPrefab);
-            HealthBarInstance.SetActive(true);
-
-            HealthBarInstance.transform.SetParent(CanvasInstance.transform,false);
-
-            EntityName = HealthBarInstance.GetComponent<TMP_Text>();
-            HealthBar = HealthBarInstance.GetComponentInChildren<Slider>();
-
-            switch(EntityType)
-            {
-                case EntityTypes.TrainingTarget:
-                    EntityName.text = "Маникен";
-                    break;
-                case EntityTypes.FlyingTarget:
-                    EntityName.text = "Мишень";
-                    break;
-                case EntityTypes.Missing:
-                case EntityTypes.RangeMissing:
-                    EntityName.text = "Пропавший";
-                    break;
-                case EntityTypes.Stalactitl:
-                    EntityName.text = "Сталактитль";
-                    break;
-                case EntityTypes.Observer:
-                    EntityName.text = "Наблюдатель";
-                    break;
-            }    
-            HealthBar.maxValue = HealthPoint;
-            HealthBar.minValue = 0;
-
-            NotPlayer = true;
-
-            UpdateEntityNameAndHealthBarPosition();
-
-            HealthBar.value = HealthPoint;
-        }
-        else
-        {
-            NotPlayer = false;
-        }
-    }
-
-    private void Update() 
-    {
-        if (NotPlayer)
-        {
-            UpdateEntityNameAndHealthBarPosition();
-
-            HealthBar.value = HealthPoint;
-        }
-    }
-
-    private void UpdateEntityNameAndHealthBarPosition()
-    {
-        Vector3 WorldPosition = transform.position + Vector3.up * 2f;
-        Vector3 ScreenPosition = Camera.main.WorldToScreenPoint(WorldPosition);
-            
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            (RectTransform)HealthBarInstance.transform.parent, 
-            ScreenPosition, 
-            null, 
-            out Vector2 LocalPoint
-        );
-
-        HealthBarInstance.GetComponent<RectTransform>().localPosition = LocalPoint;
-    }
+     
 }
 
 //Перечисление всех типов существ/сущностей в игре

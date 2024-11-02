@@ -297,6 +297,25 @@ MonoBehaviour:
   Speed: 1
   StartKey: 101
   UIControlerInstance: {fileID: 1236653269}
+--- !u!1 &21745156 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2817025140469166968, guid: 1f92d665c993a984284bacfb4f428116, type: 3}
+  m_PrefabInstance: {fileID: 3780949120857238698}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &21745157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21745156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 753dd57f53c50a24e8c19d53fcc9168f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarPrefab: {fileID: 2909342817475694626, guid: f29689f5050b33a47a6a959181330d2b, type: 3}
+  CanvasInstance: {fileID: 402715232}
 --- !u!1 &217602499 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3093651602979278529, guid: cf2256ebb2654ad4a88a4ef5b088da08, type: 3}
@@ -456,6 +475,25 @@ MonoBehaviour:
   LeftRespawnPoint: {x: -16, y: -1.85, z: 0}
   RightRespawnPoint: {x: -19, y: -1.85, z: 0}
   Damage: 1
+--- !u!1 &373347903 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4910762924993633897, guid: 07f42f23d8c467046abd9ede6609d42f, type: 3}
+  m_PrefabInstance: {fileID: 4278423523469330612}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &373347904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373347903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 753dd57f53c50a24e8c19d53fcc9168f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarPrefab: {fileID: 2909342817475694626, guid: f29689f5050b33a47a6a959181330d2b, type: 3}
+  CanvasInstance: {fileID: 402715232}
 --- !u!1 &402715229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1482,6 +1520,7 @@ GameObject:
   - component: {fileID: 1185241629}
   - component: {fileID: 1185241628}
   - component: {fileID: 1185241632}
+  - component: {fileID: 1185241633}
   m_Layer: 0
   m_Name: Observer
   m_TagString: FlyingEnemy
@@ -1642,6 +1681,20 @@ MonoBehaviour:
   SearchRadius: 7.27
   SavedDistanceToPlayer: 4.05
   DropControlerInstance: {fileID: 1354527630}
+--- !u!114 &1185241633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185241627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 753dd57f53c50a24e8c19d53fcc9168f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarPrefab: {fileID: 2909342817475694626, guid: f29689f5050b33a47a6a959181330d2b, type: 3}
+  CanvasInstance: {fileID: 402715232}
 --- !u!1 &1236653268
 GameObject:
   m_ObjectHideFlags: 0
@@ -3132,6 +3185,7 @@ GameObject:
   - component: {fileID: 83173315912649494}
   - component: {fileID: 2806499185248502823}
   - component: {fileID: 874492399284964486}
+  - component: {fileID: 6037956489190371884}
   m_Layer: 0
   m_Name: Missing
   m_TagString: Enemy
@@ -3386,7 +3440,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2817025140469166968, guid: 1f92d665c993a984284bacfb4f428116, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 21745157}
   m_SourcePrefab: {fileID: 100100000, guid: 1f92d665c993a984284bacfb4f428116, type: 3}
 --- !u!61 &3810843118429726679
 BoxCollider2D:
@@ -3488,7 +3545,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4910762924993633897, guid: 07f42f23d8c467046abd9ede6609d42f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 373347904}
   m_SourcePrefab: {fileID: 100100000, guid: 07f42f23d8c467046abd9ede6609d42f, type: 3}
 --- !u!1001 &5730985257427088513
 PrefabInstance:
@@ -3656,6 +3716,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6037956489190371884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1922254045482389032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 753dd57f53c50a24e8c19d53fcc9168f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarPrefab: {fileID: 2909342817475694626, guid: f29689f5050b33a47a6a959181330d2b, type: 3}
+  CanvasInstance: {fileID: 402715232}
 --- !u!1 &6141621112863679877
 GameObject:
   m_ObjectHideFlags: 0
@@ -3669,6 +3743,7 @@ GameObject:
   - component: {fileID: 3810843118429726679}
   - component: {fileID: 3285635501195227813}
   - component: {fileID: 2253068600500261333}
+  - component: {fileID: 8996021437889625288}
   m_Layer: 0
   m_Name: RangeMissing
   m_TagString: Enemy
@@ -3846,6 +3921,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8996021437889625288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6141621112863679877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 753dd57f53c50a24e8c19d53fcc9168f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarPrefab: {fileID: 2909342817475694626, guid: f29689f5050b33a47a6a959181330d2b, type: 3}
+  CanvasInstance: {fileID: 402715232}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

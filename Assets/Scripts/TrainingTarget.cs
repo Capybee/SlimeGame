@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class TrainingTarget : Entity
 {
-    private void OnTriggerEnter2D(Collider2D other) 
-    {
-        if (other.gameObject.tag == "Missile")
-        {
-            Missile MissileInstance = other.gameObject.GetComponent<Missile>();
-
-            TakingDamage(MissileInstance.GetDamage());
-        }
-    }
-
     public override void TakingDamage(int TakeDamage)
     {
-        Debug.Log($"Полученно {TakeDamage} урона");
+        if((HealthPoint -= TakeDamage) > 0)
+        {
+            HealthPoint -= TakeDamage;
+            Debug.Log($"Получено урона: {TakeDamage} Здоровья осталось: {HealthPoint}");
+            base.TakingDamage(TakeDamage);
+        }
+        else
+        {
+            Death();
+        }
     }
 }
